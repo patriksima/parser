@@ -1,0 +1,65 @@
+<?php
+
+namespace WrongWare\EBNFParser;
+
+/**
+ * Class for key:value term.
+ */
+class Term
+{
+    /**
+     * Key.
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * Value.
+     *
+     * @var string
+     */
+    protected $value;
+
+    /**
+     * Constructor.
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function __construct(string $key, string $value)
+    {
+        $this->key = $key;
+        $this->value = $value;
+    }
+
+    /**
+     * Return string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->key.':'.$this->value;
+    }
+
+    /**
+     * Getter for key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Getter for value.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+}

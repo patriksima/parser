@@ -3,15 +3,18 @@
     "require": {
         "php": ">=5.6.0"
     },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
+    },
     "autoload": {
         "files": [
-            "lexer.php",
-            "parser.php",
-            "token.php",
-            "tokenstream.php",
-            "term.php",
-            "operator.php",
-            "group.php"
+            "src/Lexer.php",
+            "src/Parser.php",
+            "src/Token.php",
+            "src/TokenStream.php",
+            "src/Term.php",
+            "src/Operator.php",
+            "src/Group.php"
         ]
     }
 }

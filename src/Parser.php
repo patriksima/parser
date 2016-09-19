@@ -2,24 +2,53 @@
 
 namespace WrongWare\EBNFParser;
 
+/**
+ * Simple parser for search string.
+ *
+ * eg. (key:value or key:value and key:value)
+ */
 class Parser
 {
+    /**
+     * Result of Lexer.
+     *
+     * @var TokenStream
+     */
     protected $stream;
+
+    /**
+     * Result of parsing.
+     *
+     * @var Group
+     */
     protected $syntax;
+
+    /**
+     * Expected tokens stack for special cases
+     * for example matching parenthesis.
+     *
+     * @var array
+     */
     protected $future = [];
-/*
-    protected $rules = [
-        '<terms>' => '<term> <operator> <terms>',
-        '<term>' => 'T_KEY T_SEPARATOR T_VALUE',
-        '<operator>' => 'T_WHITESPACE T_OPERATOR T_WHITESPACE',
-    ];
-*/
+
+    /**
+     * Constructor.
+     *
+     * @param TokenStream $stream
+     */
     public function __construct(TokenStream $stream)
     {
         $this->stream = $stream;
         $this->syntax = new Group();
     }
 
+    /**
+     * Main parsing loop.
+     *
+     * @throws Exception if syntax error
+     *
+     * @return Group
+     */
     public function parse()
     {
         while (($token = $this->next()) && $token->getType() != 'EOS') {
@@ -65,6 +94,13 @@ class Parser
         return $this->syntax;
     }
 
+    /**
+     * Check next token type.
+     *
+     * @param string $expectedType
+     *
+     * @throws Exception if token doesn't match with expected
+     */
     protected function expect(string $expectedType)
     {
         $type = $this->stream->lookahead()->getType();
@@ -74,6 +110,13 @@ class Parser
         }
     }
 
+    /**
+     * Check next token types in OR mode.
+     *
+     * @param array $expectedTypes
+     *
+     * @throws Exception if none token doesn't match with expected
+     */
     protected function expectOr(array $expectedTypes)
     {
         foreach ($expectedTypes as $expectedType) {
@@ -86,11 +129,23 @@ class Parser
         throw new \Exception("Syntax error. Expected {implode(',',$expectedTypes)}, got {$type}");
     }
 
+    /**
+     * Put expected type of token on stack.
+     *
+     * @param string $expectedType
+     */
     protected function expectFuture(string $expectedType)
     {
         array_push($this->future, $expectedType);
     }
 
+    /**
+     * Check stack against expected type of token.
+     *
+     * @param string $expectedType
+     *
+     * @throws Exception if expected token missing or doesn't match
+     */
     protected function matchFuture(string $expectedType)
     {
         if (empty($this->future)) {
@@ -104,6 +159,11 @@ class Parser
         }
     }
 
+    /**
+     * Get next token from token stream.
+     *
+     * @return Token
+     */
     protected function next()
     {
         return $this->stream->next();

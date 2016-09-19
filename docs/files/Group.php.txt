@@ -1,0 +1,83 @@
+<?php
+
+namespace WrongWare\EBNFParser;
+
+/**
+ * Holder for group of results.
+ */
+class Group
+{
+    /**
+     * Previous Group.
+     *
+     * @var Group
+     */
+    protected $prev;
+
+    /**
+     * Type of group.
+     *
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * Array of terms.
+     *
+     * @var array
+     */
+    protected $terms = [];
+
+    /**
+     * Constructor.
+     *
+     * @param string $type
+     * @param Group  $prev
+     */
+    public function __construct(string $type = '', Group $prev = null)
+    {
+        $this->type = $type;
+        $this->prev = $prev;
+    }
+
+    /**
+     * Return group type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Return parent Group.
+     *
+     * @return Group
+     */
+    public function getPrev()
+    {
+        return $this->prev;
+    }
+
+    /**
+     * Set parent Group.
+     *
+     * @param Group|null
+     */
+    public function setPrev($prev)
+    {
+        $this->prev = $prev;
+    }
+
+    /**
+     * Add term or group.
+     *
+     * @param Term|Group
+     */
+    public function add($term)
+    {
+        $this->terms[] = $term;
+    }
+}
+

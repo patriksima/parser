@@ -2,9 +2,23 @@
 
 namespace WrongWare\EBNFParser;
 
+/**
+ * Stream of tokens.
+ */
 class TokenStream
 {
+    /**
+     * Array of tokens.
+     *
+     * @var Token[]
+     */
     protected $tokens = [];
+
+    /**
+     * Pointer to current Token.
+     *
+     * @var int
+     */
     protected $position = -1;
 
     /**
@@ -42,3 +56,4 @@ class TokenStream
         return $this->tokens[$this->position];
     }
 }
+

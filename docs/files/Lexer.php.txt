@@ -7,6 +7,11 @@ namespace WrongWare\EBNFParser;
  */
 class Lexer
 {
+    /**
+     * Regex for tokens.
+     *
+     * @var array
+     */
     protected $symbols = [
         'T_OPERATOR' => '/^(or|and)/',
         'T_KEY' => '/^([a-zA-Z]+)(?::)/',
@@ -17,9 +22,26 @@ class Lexer
         'T_CLOSEPAREN' => '/^(\))/',
     ];
 
+    /**
+     * Input string.
+     *
+     * @var string
+     */
     protected $input;
+
+    /**
+     * Result of lexical analysis
+     * Array of tokens.
+     *
+     * @var array
+     */
     protected $tokens = [];
 
+    /**
+     * Constructor.
+     *
+     * @param string $input
+     */
     public function __construct(string $input)
     {
         $this->input = $input;
@@ -46,6 +68,14 @@ class Lexer
         return new TokenStream($this->tokens);
     }
 
+    /**
+     * Internal tokenizer based on regexp.
+     *
+     * @param string $line
+     * @param int    $offset
+     *
+     * @throws Exception if cannot match
+     */
     protected function match(string $line, int $offset)
     {
         $string = substr($line, $offset);
@@ -59,3 +89,4 @@ class Lexer
         throw new \Exception('Unrecognized character in input stream: '.$string[0].' at '.$offset);
     }
 }
+
