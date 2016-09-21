@@ -1,6 +1,6 @@
 <?php
 
-namespace WrongWare\EBNFParser;
+namespace WrongWare\SearchParser;
 
 /**
  * Simple parser for search string.
