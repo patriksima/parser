@@ -9,48 +9,42 @@
 
 **Parser result:**
 ```
-Group Object
+Array
 (
-    [prev:protected] => 
-    [type:protected] => 
-    [terms:protected] => Array
+    [0] => WrongWare\SearchParser\Group Object
         (
-            [0] => Group Object
+            [prev:protected] => 
+            [type:protected] => and
+            [terms:protected] => Array
                 (
-                    [prev:protected] => 
-                    [type:protected] => parenthesis
-                    [terms:protected] => Array
+                    [0] => WrongWare\SearchParser\Group Object
                         (
-                            [0] => Term Object
+                            [prev:protected] => 
+                            [type:protected] => or
+                            [terms:protected] => Array
                                 (
-                                    [key:protected] => key
-                                    [value:protected] => value
-                                )
+                                    [0] => WrongWare\SearchParser\Term Object
+                                        (
+                                            [key:protected] => key
+                                            [value:protected] => value
+                                        )
 
-                            [1] => Operator Object
-                                (
-                                    [type:protected] => or
-                                )
+                                    [1] => WrongWare\SearchParser\Term Object
+                                        (
+                                            [key:protected] => key
+                                            [value:protected] => value
+                                        )
 
-                            [2] =>Term Object
-                                (
-                                    [key:protected] => key
-                                    [value:protected] => value
                                 )
 
                         )
 
-                )
+                    [1] => WrongWare\SearchParser\Term Object
+                        (
+                            [key:protected] => key
+                            [value:protected] => value
+                        )
 
-            [1] => Operator Object
-                (
-                    [type:protected] => and
-                )
-
-            [2] => Term Object
-                (
-                    [key:protected] => key
-                    [value:protected] => value
                 )
 
         )

@@ -79,4 +79,14 @@ class Group
     {
         $this->terms[] = $term;
     }
+
+    /**
+     * Get terms.
+     *
+     * @return array
+     */
+    public function getTerms()
+    {
+        return $this->terms;
+    }
 }
