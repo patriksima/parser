@@ -1,6 +1,6 @@
 <?php
 
-namespace WrongWare\EBNFParser;
+namespace WrongWare\SearchParser;
 
 /**
  * Class Operator.

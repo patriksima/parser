@@ -7,14 +7,8 @@
         "phpdocumentor/phpdocumentor": "2.*"
     },
     "autoload": {
-        "files": [
-            "src/Lexer.php",
-            "src/Parser.php",
-            "src/Token.php",
-            "src/TokenStream.php",
-            "src/Term.php",
-            "src/Operator.php",
-            "src/Group.php"
-        ]
+        "psr-4":{
+            "WrongWare\\SearchParser\\": "src/"
+        }
     }
 }
