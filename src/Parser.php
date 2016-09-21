@@ -19,9 +19,9 @@ class Parser
     /**
      * Result of parsing.
      *
-     * @var Group
+     * @var array
      */
-    protected $syntax;
+    protected $syntax = [];
 
     /**
      * Expected tokens stack for special cases
@@ -32,6 +32,13 @@ class Parser
     protected $future = [];
 
     /**
+     * Processing stack.
+     *
+     * @var array
+     */
+    protected $stack = [];
+
+    /**
      * Constructor.
      *
      * @param TokenStream $stream
@@ -39,7 +46,6 @@ class Parser
     public function __construct(TokenStream $stream)
     {
         $this->stream = $stream;
-        $this->syntax = new Group();
     }
 
     /**
@@ -51,35 +57,42 @@ class Parser
      */
     public function parse()
     {
+        $this->stack = $this->loop();
+        $this->syntax = $this->valuation($this->stack);
+
+        return $this->syntax;
+    }
+
+    /**
+     * Recursive parsing of token stream and building
+     * stack of tokens with polish notation.
+     *
+     * @return array
+     */
+    protected function loop()
+    {
+        $stack = [];
+
         while (($token = $this->next()) && $token->getType() != 'EOS') {
             switch ($token->getType()) {
                 case 'T_OPENPAREN':
-                    $this->expect('T_KEY');
-                    $this->expectFuture('T_CLOSEPAREN');
-                    $this->syntax = new Group('parenthesis', $this->syntax);
+                    $term = $this->parseParenthesis($token);
+                    $stack[] = $term;
                     break;
                 case 'T_CLOSEPAREN':
                     $this->matchFuture('T_CLOSEPAREN');
                     $this->expectOr(['T_WHITESPACE', 'EOS']);
-                    $group = $this->syntax;
-                    $this->syntax = $this->syntax->getPrev();
-                    $group->setPrev(null);
-                    $this->syntax->add($group);
-                    break;
+
+                    return $stack;
                 case 'T_WHITESPACE':
-                    $this->expect('T_OPERATOR');
-                    $operator = $this->next();
-                    $this->expect('T_WHITESPACE');
-                    $this->next();
-                    $this->syntax->add(new Operator($operator->getValue()));
+                    $term = $this->parseOperator($token);
+                    $prev = array_pop($stack);
+                    $stack[] = $term;
+                    $stack[] = $prev;
                     break;
                 case 'T_KEY':
-                    $key = $token->getValue();
-                    $this->expect('T_SEPARATOR');
-                    $this->next();
-                    $this->expect('T_VALUE');
-                    $value = $this->next();
-                    $this->syntax->add(new Term($key, $value->getValue()));
+                    $term = $this->parseTerm($token);
+                    $stack[] = $term;
                     break;
                 default:
                     throw new \Exception('Syntax error. Unexpected token '.$token);
@@ -91,7 +104,108 @@ class Parser
             throw new \Exception('Syntax error. Missing tokens '.implode(',', $this->future));
         }
 
-        return $this->syntax;
+        return $stack;
+    }
+
+    /**
+     * Recursive valuation of stack.
+     *
+     * @param array $stack stack with polish notation
+     *
+     * @return array
+     */
+    protected function valuation(array $stack)
+    {
+        $syntax = [];
+
+        $stack = array_reverse($stack);
+
+        while ($item = array_pop($stack)) {
+            if ($item instanceof \WrongWare\SearchParser\Operator) {
+                $group = new Group($item->getType());
+                $arg1 = array_pop($stack);
+                $arg2 = array_pop($stack);
+                if (is_array($arg1)) {
+                    $arg1 = $this->valuation($arg1);
+                }
+                if (is_array($arg2)) {
+                    $arg2 = $this->valuation($arg2);
+                }
+                if ($arg2 instanceof \WrongWare\SearchParser\Operator) {
+                    $arg2 = $this->valuation([$arg2, array_pop($stack), array_pop($stack)]);
+                }
+                $group->add($arg1);
+                $group->add($arg2);
+                $syntax[] = $group;
+            }
+            if ($item instanceof \WrongWare\SearchParser\Term) {
+                $syntax[] = $item;
+            }
+        }
+
+        return $syntax;
+    }
+
+    /**
+     * Parse key:value expression.
+     *
+     * @param Token $token
+     *
+     * @return Term
+     */
+    protected function parseTerm(Token $token)
+    {
+        if ($token->getType() != 'T_KEY') {
+            return false;
+        }
+
+        $key = $token->getValue();
+        $this->expect('T_SEPARATOR');
+        $this->next();
+        $this->expect('T_VALUE');
+        $value = $this->next()->getValue();
+
+        return new Term($key, $value);
+    }
+
+    /**
+     * Parse operator or/and.
+     *
+     * @param Token $token
+     *
+     * @return Term
+     */
+    protected function parseOperator(Token $token)
+    {
+        if ($token->getType() != 'T_WHITESPACE') {
+            return false;
+        }
+
+        $this->expect('T_OPERATOR');
+        $type = $this->next()->getValue();
+        $this->expect('T_WHITESPACE');
+        $this->next();
+
+        return new Operator($type);
+    }
+
+    /**
+     * Parse parenthesis.
+     *
+     * @param Token $token
+     *
+     * @return Term
+     */
+    protected function parseParenthesis(Token $token)
+    {
+        if ($token->getType() != 'T_OPENPAREN') {
+            return false;
+        }
+
+        $this->expect('T_KEY');
+        $this->expectFuture('T_CLOSEPAREN');
+
+        return $this->loop();
     }
 
     /**
