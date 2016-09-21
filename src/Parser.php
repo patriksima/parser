@@ -121,18 +121,21 @@ class Parser
         $stack = array_reverse($stack);
 
         while ($item = array_pop($stack)) {
+            if (is_array($item)) {
+                $syntax = $this->valuation($item);
+            }
             if ($item instanceof \WrongWare\SearchParser\Operator) {
                 $group = new Group($item->getType());
                 $arg1 = array_pop($stack);
                 $arg2 = array_pop($stack);
                 if (is_array($arg1)) {
-                    $arg1 = $this->valuation($arg1);
+                    $arg1 = $this->valuation($arg1)[0];
                 }
                 if (is_array($arg2)) {
-                    $arg2 = $this->valuation($arg2);
+                    $arg2 = $this->valuation($arg2)[0];
                 }
                 if ($arg2 instanceof \WrongWare\SearchParser\Operator) {
-                    $arg2 = $this->valuation([$arg2, array_pop($stack), array_pop($stack)]);
+                    $arg2 = $this->valuation([$arg2, array_pop($stack), array_pop($stack)])[0];
                 }
                 $group->add($arg1);
                 $group->add($arg2);
@@ -205,7 +208,13 @@ class Parser
         $this->expect('T_KEY');
         $this->expectFuture('T_CLOSEPAREN');
 
-        return $this->loop();
+        $stack = $this->loop();
+
+        if (count($stack) == 1) {
+            $stack = $stack[0];
+        }
+
+        return $stack;
     }
 
     /**
