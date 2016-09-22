@@ -31,30 +31,30 @@
 <polygon fill="none" stroke="black" points="104.5,-338 50.5,-338 50.5,-302 104.5,-302 104.5,-338"/>
 <text text-anchor="middle" x="77.5" y="-317.2" font-family="Courier,monospace" font-size="11.00">Group</text>
 </g>
-<!-- \\WrongWare\\SearchParser\\TokenStream -->
-<g id="node3" class="node"><title>\\WrongWare\\SearchParser\\TokenStream</title>
-<polygon fill="none" stroke="black" points="123,-284 32,-284 32,-248 123,-248 123,-284"/>
-<text text-anchor="middle" x="77.5" y="-263.2" font-family="Courier,monospace" font-size="11.00">TokenStream</text>
-</g>
-<!-- \\WrongWare\\SearchParser\\Parser -->
-<g id="node4" class="node"><title>\\WrongWare\\SearchParser\\Parser</title>
-<polygon fill="none" stroke="black" points="106,-230 49,-230 49,-194 106,-194 106,-230"/>
-<text text-anchor="middle" x="77.5" y="-209.2" font-family="Courier,monospace" font-size="11.00">Parser</text>
+<!-- \\WrongWare\\SearchParser\\Lexer -->
+<g id="node3" class="node"><title>\\WrongWare\\SearchParser\\Lexer</title>
+<polygon fill="none" stroke="black" points="104.5,-284 50.5,-284 50.5,-248 104.5,-248 104.5,-284"/>
+<text text-anchor="middle" x="77.5" y="-263.2" font-family="Courier,monospace" font-size="11.00">Lexer</text>
 </g>
 <!-- \\WrongWare\\SearchParser\\Term -->
-<g id="node5" class="node"><title>\\WrongWare\\SearchParser\\Term</title>
-<polygon fill="none" stroke="black" points="104.5,-176 50.5,-176 50.5,-140 104.5,-140 104.5,-176"/>
-<text text-anchor="middle" x="77.5" y="-155.2" font-family="Courier,monospace" font-size="11.00">Term</text>
-</g>
-<!-- \\WrongWare\\SearchParser\\Lexer -->
-<g id="node6" class="node"><title>\\WrongWare\\SearchParser\\Lexer</title>
-<polygon fill="none" stroke="black" points="104.5,-122 50.5,-122 50.5,-86 104.5,-86 104.5,-122"/>
-<text text-anchor="middle" x="77.5" y="-101.2" font-family="Courier,monospace" font-size="11.00">Lexer</text>
+<g id="node4" class="node"><title>\\WrongWare\\SearchParser\\Term</title>
+<polygon fill="none" stroke="black" points="104.5,-230 50.5,-230 50.5,-194 104.5,-194 104.5,-230"/>
+<text text-anchor="middle" x="77.5" y="-209.2" font-family="Courier,monospace" font-size="11.00">Term</text>
 </g>
 <!-- \\WrongWare\\SearchParser\\Operator -->
-<g id="node7" class="node"><title>\\WrongWare\\SearchParser\\Operator</title>
-<polygon fill="none" stroke="black" points="113,-68 42,-68 42,-32 113,-32 113,-68"/>
-<text text-anchor="middle" x="77.5" y="-47.2" font-family="Courier,monospace" font-size="11.00">Operator</text>
+<g id="node5" class="node"><title>\\WrongWare\\SearchParser\\Operator</title>
+<polygon fill="none" stroke="black" points="113,-176 42,-176 42,-140 113,-140 113,-176"/>
+<text text-anchor="middle" x="77.5" y="-155.2" font-family="Courier,monospace" font-size="11.00">Operator</text>
+</g>
+<!-- \\WrongWare\\SearchParser\\TokenStream -->
+<g id="node6" class="node"><title>\\WrongWare\\SearchParser\\TokenStream</title>
+<polygon fill="none" stroke="black" points="123,-122 32,-122 32,-86 123,-86 123,-122"/>
+<text text-anchor="middle" x="77.5" y="-101.2" font-family="Courier,monospace" font-size="11.00">TokenStream</text>
+</g>
+<!-- \\WrongWare\\SearchParser\\Parser -->
+<g id="node7" class="node"><title>\\WrongWare\\SearchParser\\Parser</title>
+<polygon fill="none" stroke="black" points="106,-68 49,-68 49,-32 106,-32 106,-68"/>
+<text text-anchor="middle" x="77.5" y="-47.2" font-family="Courier,monospace" font-size="11.00">Parser</text>
 </g>
 </g>
 </svg>
